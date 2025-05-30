@@ -1,25 +1,9 @@
----
-# https://vitepress.dev/reference/default-theme-home-page
-layout: home
+# Magic Travel
 
-hero:
-  name: "Magic Travel GDD"
-  text: "A VitePress Site"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+[0. Идеи](0_ideas)
 
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
----
+[1. Жанр и Синопсис](./1_genre_and_synopsis)
 
+[2. Управление](./2_controls)
+
+[3. Системы](./3_systems)
