@@ -4,6 +4,9 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Magic Travel GDD",
   description: "Game Design Document для пошаговой RPG Magic Travel",
+  head: [
+    ['meta', { name: 'robots', content: 'noindex, nofollow' }]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
