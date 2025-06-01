@@ -9,6 +9,13 @@ const AUTH_CONFIG = {
   sessionDuration: 24 * 60 * 60 * 1000,
   // Ключ для получения пользователей из Edge Config
   edgeConfigKey: 'users',
+  // Защита от брутфорса
+  bruteForce: {
+    // Базовая задержка при неудачной попытке (в миллисекундах)
+    baseDelay: 1000,
+    // Максимальная задержка
+    maxDelay: 5000,
+  },
 };
 
 // Интерфейс для сессии
@@ -16,6 +23,15 @@ interface Session {
   username: string;
   loginTime: number;
   expiresAt: number;
+}
+
+/**
+ * Создает задержку для замедления брутфорс атак
+ */
+async function createBruteForceDelay(): Promise<void> {
+  // Случайная задержка от 1 до 5 секунд
+  const delay = Math.random() * (AUTH_CONFIG.bruteForce.maxDelay - AUTH_CONFIG.bruteForce.baseDelay) + AUTH_CONFIG.bruteForce.baseDelay;
+  await new Promise(resolve => setTimeout(resolve, delay));
 }
 
 /**
@@ -154,9 +170,6 @@ function createCookieString(name: string, value: string, options: {
  * Основная middleware функция для Vercel Edge Runtime
  */
 export default async function middleware(request: Request): Promise<Response | undefined> {
-  const url = new URL(request.url);
-  const { pathname } = url;
-
   // Проверяем существующую сессию
   const sessionCookie = getCookie(request, AUTH_CONFIG.sessionCookieName);
   if (sessionCookie) {
@@ -171,30 +184,37 @@ export default async function middleware(request: Request): Promise<Response | u
   const authHeader = request.headers.get('authorization');
   if (authHeader) {
     const credentials = parseBasicAuth(authHeader);
-    if (credentials && await validateCredentials(credentials.username, credentials.password)) {
-      // Создаем новую сессию
-      const session = createSession(credentials.username);
+    if (credentials) {
+      const isValid = await validateCredentials(credentials.username, credentials.password);
       
-      // Создаем ответ с перенаправлением на тот же URL
-      const response = new Response(null, {
-        status: 302,
-        headers: {
-          'Location': request.url,
-          'Set-Cookie': createCookieString(
-            AUTH_CONFIG.sessionCookieName,
-            encodeSession(session),
-            {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'Strict',
-              maxAge: AUTH_CONFIG.sessionDuration / 1000,
-              path: '/',
-            }
-          ),
-        },
-      });
+      if (isValid) {
+        // Создаем новую сессию
+        const session = createSession(credentials.username);
+        
+        // Создаем ответ с перенаправлением на тот же URL
+        const response = new Response(null, {
+          status: 302,
+          headers: {
+            'Location': request.url,
+            'Set-Cookie': createCookieString(
+              AUTH_CONFIG.sessionCookieName,
+              encodeSession(session),
+              {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'Strict',
+                maxAge: AUTH_CONFIG.sessionDuration / 1000,
+                path: '/',
+              }
+            ),
+          },
+        });
 
-      return response;
+        return response;
+      } else {
+        // Неверные учетные данные - добавляем задержку
+        await createBruteForceDelay();
+      }
     }
   }
 
