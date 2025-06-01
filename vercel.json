@@ -1,10 +1,4 @@
 {
   "buildCommand": "npm run docs:build",
-  "outputDirectory": "docs/.vitepress/dist",
-  "framework": null,
-  "functions": {
-    "api/auth-proxy.ts": {
-      "runtime": "@vercel/edge@1"
-    }
-  }
+  "outputDirectory": "docs/.vitepress/dist"
 }
