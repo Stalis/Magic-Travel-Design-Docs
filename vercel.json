@@ -3,8 +3,8 @@
   "outputDirectory": "docs/.vitepress/dist",
   "framework": null,
   "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node@18"
+    "api/auth-proxy.ts": {
+      "runtime": "@vercel/edge@1"
     }
   }
 }
