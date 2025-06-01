@@ -1,5 +1,4 @@
 import { get } from '@vercel/edge-config';
-import { createHash } from 'crypto';
 
 // Конфигурация аутентификации
 const AUTH_CONFIG = {
@@ -23,6 +22,20 @@ interface Session {
   username: string;
   loginTime: number;
   expiresAt: number;
+}
+
+async function sha256(message: string): Promise<string> {
+  // Конвертируем строку в ArrayBuffer
+  const msgBuffer = new TextEncoder().encode(message)
+  
+  // Хешируем с помощью Web Crypto API
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer)
+  
+  // Конвертируем в hex строку
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  
+  return hashHex
 }
 
 /**
@@ -54,13 +67,6 @@ function decodeSession(encoded: string): Session | null {
 }
 
 /**
- * Создает SHA-256 хеш пароля
- */
-function hashPassword(password: string): string {
-  return createHash('sha256').update(password).digest('hex');
-}
-
-/**
  * Извлекает данные Basic Auth из заголовка Authorization
  */
 function parseBasicAuth(authHeader: string): { username: string; password: string } | null {
@@ -89,7 +95,7 @@ async function validateCredentials(username: string, password: string): Promise<
     }
     
     // Сравниваем хеш введенного пароля с сохраненным хешем
-    const passwordHash = hashPassword(password);
+    const passwordHash = await sha256(password);
     return users[username] === passwordHash;
   } catch (error) {
     console.error('Error validating credentials:', error);
