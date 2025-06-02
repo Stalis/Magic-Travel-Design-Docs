@@ -177,3 +177,6 @@ dist
 # VitePress
 **/.vitepress/dist
 **/.vitepress/cache
+
+# For vercel deployments
+package-lock.json
