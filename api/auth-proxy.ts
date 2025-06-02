@@ -197,26 +197,29 @@ export default async function middleware(request: Request): Promise<Response | u
         // Создаем новую сессию
         const session = createSession(credentials.username);
         
-        // Создаем ответ с перенаправлением на тот же URL
-        const response = new Response(null, {
-          status: 302,
-          headers: {
-            'Location': request.url,
-            'Set-Cookie': createCookieString(
-              AUTH_CONFIG.sessionCookieName,
-              encodeSession(session),
-              {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'Strict',
-                maxAge: AUTH_CONFIG.sessionDuration / 1000,
-                path: '/',
-              }
-            ),
-          },
-        });
+        // Создаем заголовки для установки cookie и продолжения запроса
+        const headers = new Headers();
+        headers.set('Set-Cookie', createCookieString(
+          AUTH_CONFIG.sessionCookieName,
+          encodeSession(session),
+          {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: AUTH_CONFIG.sessionDuration / 1000,
+            path: '/',
+          }
+        ));
 
-        return response;
+        // Создаем новый запрос с установленными заголовками и продолжаем
+        const modifiedRequest = new Request(request, { headers });
+        
+        // Возвращаем undefined чтобы позволить запросу продолжиться
+        // Cookie будет установлен через заголовки ответа
+        return new Response(null, {
+          status: 200,
+          headers,
+        });
       } else {
         // Неверные учетные данные - добавляем задержку
         await createBruteForceDelay();
