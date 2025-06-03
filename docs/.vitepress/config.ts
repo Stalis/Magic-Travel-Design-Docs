@@ -17,7 +17,8 @@ export default defineConfig({
       { text: '3. Основные понятия', link: '/3_base_concepts/' },
       { text: '4. Стиль игры', link: '/4_game_style/' },
       { text: '5. Системы', link: '/5_systems/' },
-      { text: '6. Механики', link: '/6_mechanics/' }
+      { text: '6. Механики', link: '/6_mechanics/' },
+      { text: '7. Параметры', link: '/7_parameters/' }
     ],
 
     sidebar: [
@@ -76,7 +77,8 @@ export default defineConfig({
           { text: '5.3 Ресурсы и экономика', link: '/5_systems/5.3_resources_and_economy' },
           { text: '5.4 Система действий', link: '/5_systems/5.4_actions_system' },
           { text: '5.5 Система GridMap', link: '/5_systems/5.5_gridmap_system' },
-          { text: '5.6 Система состояний', link: '/5_systems/5.6_status_system' }
+          { text: '5.6 Система состояний', link: '/5_systems/5.6_status_system' },
+          { text: '5.7 Система характеристик', link: '/5_systems/5.7_character_stats_system' }
         ]
       },
       {
@@ -86,6 +88,14 @@ export default defineConfig({
         items: [
           { text: '6. Обзор', link: '/6_mechanics/' },
           { text: '6.1 Механика боя', link: '/6_mechanics/6.1_combat_mechanic' }
+        ]
+      },
+      {
+        text: '⚙️ 7. Параметры',
+        link: '/7_parameters/',
+        collapsed: false,
+        items: [
+          { text: '7. Обзор', link: '/7_parameters/' }
         ]
       }
     ],

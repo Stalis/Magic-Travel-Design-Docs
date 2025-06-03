@@ -13,3 +13,5 @@
 [5. Системы](./5_systems/index.md)
 
 [6. Механики](./6_mechanics/index.md)
+
+[7. Параметры](./7_parameters/index.md)
