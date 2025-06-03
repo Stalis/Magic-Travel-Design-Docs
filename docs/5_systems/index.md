@@ -1,4 +1,4 @@
-# 3. Системы
+# 5. Системы
 
 ## Глоссарий специфических терминов
 
@@ -30,18 +30,16 @@
 
 ## Оглавление
 
-[3.0 Руководство по расширению документации](./3.0_doc_extension_manual.md)
+[5.0 Руководство по расширению документации](./5.0_doc_extension_manual.md)
 
-[3.1 Основные понятия](./3.1_base_termins.md)
+[5.1 Система тегов и классификации](./5.1_tags_and_classification_system.md)
 
-[3.2 Система тегов и классификации](./3.2_tags_and_classification_system.md)
+[5.2 Система ходов](./5.2_turn_system.md)
 
-[3.3 Система ходов](./3.3_turn_system.md)
+[5.3 Ресурсы и экономика](./5.3_resources_and_economy.md)
 
-[3.4 Ресурсы и экономика](./3.4_resources_and_economy.md)
+[5.4 Система действий](./5.4_actions_system.md)
 
-[3.5 Система действий](./3.5_actions_system.md)
+[5.5 Система GridMap](./5.5_gridmap_system.md)
 
-[3.6 Система GridMap](./3.6_gridmap_system.md)
-
-[3.7 Система состояний](./3.7_status_system.md)
+[5.6 Система состояний](./5.6_status_system.md)
