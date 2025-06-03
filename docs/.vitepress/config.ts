@@ -55,7 +55,9 @@ export default defineConfig({
           { text: 'Теги и классификация', link: '/3_systems/3.2_tags_and_classification_system' },
           { text: 'Система ходов', link: '/3_systems/3.3_turn_system' },
           { text: 'Ресурсы и экономика', link: '/3_systems/3.4_resources_and_economy' },
-          { text: 'Система действий', link: '/3_systems/3.5_actions_system' }
+          { text: 'Система действий', link: '/3_systems/3.5_actions_system' },
+          { text: 'Система GridMap', link: '/3_systems/3.6_gridmap_system' },
+          { text: 'Система состояний', link: '/3_systems/3.7_status_system' }
         ]
       }
     ],
