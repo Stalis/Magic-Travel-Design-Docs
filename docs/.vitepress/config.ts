@@ -14,8 +14,10 @@ export default defineConfig({
       { text: 'Идеи', link: '/0_ideas' },
       { text: 'Жанр', link: '/1_genre_and_synopsis/' },
       { text: 'Управление', link: '/2_controls/' },
-      { text: 'Системы', link: '/3_systems/' },
-      { text: 'Механики', link: '/4_mechanics/' }
+      { text: 'Основные понятия', link: '/3_base_concepts/' },
+      { text: 'Стиль игры', link: '/4_game_style/' },
+      { text: 'Системы', link: '/5_systems/' },
+      { text: 'Механики', link: '/6_mechanics/' }
     ],
 
     sidebar: [
@@ -26,7 +28,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '🎮 Жанр и Синопсис',
+        text: '🎯 Жанр и Синопсис',
         link: '/1_genre_and_synopsis/',
         collapsed: false,
         items: [
@@ -36,7 +38,7 @@ export default defineConfig({
         ]
       },
       {
-        text: '🎯 Управление',
+        text: '🎮 Управление',
         link: '/2_controls/',
         collapsed: false,
         items: [
@@ -46,28 +48,44 @@ export default defineConfig({
         ]
       },
       {
-        text: '⚙️ Системы',
-        link: '/3_systems/',
+        text: '📚 Основные понятия',
+        link: '/3_base_concepts/',
         collapsed: false,
         items: [
-          { text: 'Обзор', link: '/3_systems/' },
-          { text: 'Руководство по документации', link: '/3_systems/3.0_doc_extension_manual' },
-          { text: 'Основные понятия', link: '/3_systems/3.1_base_termins' },
-          { text: 'Теги и классификация', link: '/3_systems/3.2_tags_and_classification_system' },
-          { text: 'Система ходов', link: '/3_systems/3.3_turn_system' },
-          { text: 'Ресурсы и экономика', link: '/3_systems/3.4_resources_and_economy' },
-          { text: 'Система действий', link: '/3_systems/3.5_actions_system' },
-          { text: 'Система GridMap', link: '/3_systems/3.6_gridmap_system' },
-          { text: 'Система состояний', link: '/3_systems/3.7_status_system' }
+          { text: 'Обзор', link: '/3_base_concepts/' },
+          { text: 'Системы и механики', link: '/3_base_concepts/3.1_system_and_mechanic' }
         ]
       },
       {
-        text: '⚙️ Механики',
-        link: '/4_mechanics/',
+        text: '🎨 Стиль игры',
+        link: '/4_game_style/',
         collapsed: false,
         items: [
-          { text: 'Обзор', link: '/4_mechanics/' },
-          { text: 'Механика боя', link: '/4_mechanics/4.1_combat_mechanic' }
+          { text: 'Обзор', link: '/4_game_style/' }
+        ]
+      },
+      {
+        text: '⚙️ Системы',
+        link: '/5_systems/',
+        collapsed: false,
+        items: [
+          { text: 'Обзор', link: '/5_systems/' },
+          { text: 'Руководство по документации', link: '/5_systems/5.0_doc_extension_manual' },
+          { text: 'Теги и классификация', link: '/5_systems/5.1_tags_and_classification_system' },
+          { text: 'Система ходов', link: '/5_systems/5.2_turn_system' },
+          { text: 'Ресурсы и экономика', link: '/5_systems/5.3_resources_and_economy' },
+          { text: 'Система действий', link: '/5_systems/5.4_actions_system' },
+          { text: 'Система GridMap', link: '/5_systems/5.5_gridmap_system' },
+          { text: 'Система состояний', link: '/5_systems/5.6_status_system' }
+        ]
+      },
+      {
+        text: '🎲 Механики',
+        link: '/6_mechanics/',
+        collapsed: false,
+        items: [
+          { text: 'Обзор', link: '/6_mechanics/' },
+          { text: 'Механика боя', link: '/6_mechanics/6.1_combat_mechanic' }
         ]
       }
     ],
