@@ -14,7 +14,8 @@ export default defineConfig({
       { text: 'Идеи', link: '/0_ideas' },
       { text: 'Жанр', link: '/1_genre_and_synopsis/' },
       { text: 'Управление', link: '/2_controls/' },
-      { text: 'Системы', link: '/3_systems/' }
+      { text: 'Системы', link: '/3_systems/' },
+      { text: 'Механики', link: '/4_mechanics/' }
     ],
 
     sidebar: [
@@ -58,6 +59,15 @@ export default defineConfig({
           { text: 'Система действий', link: '/3_systems/3.5_actions_system' },
           { text: 'Система GridMap', link: '/3_systems/3.6_gridmap_system' },
           { text: 'Система состояний', link: '/3_systems/3.7_status_system' }
+        ]
+      },
+      {
+        text: '⚙️ Механики',
+        link: '/4_mechanics/',
+        collapsed: false,
+        items: [
+          { text: 'Обзор', link: '/4_mechanics/' },
+          { text: 'Механика боя', link: '/4_mechanics/4.1_combat_mechanic' }
         ]
       }
     ],

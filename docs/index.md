@@ -7,3 +7,5 @@
 [2. Управление](./2_controls/index.md)
 
 [3. Системы](./3_systems/index.md)
+
+[4. Механики](./4_mechanics/index.md)
