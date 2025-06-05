@@ -24,8 +24,9 @@ export default defineConfig({
     sidebar: [
       {
         text: '📝 0. Идеи и Заметки',
+        link: '/0_ideas',
+        collapsed: false,
         items: [
-          { text: '0. Идеи', link: '/0_ideas' }
         ]
       },
       {
@@ -33,7 +34,6 @@ export default defineConfig({
         link: '/1_genre_and_synopsis/',
         collapsed: false,
         items: [
-          { text: '1. Обзор', link: '/1_genre_and_synopsis/' },
           { text: '1.1 Простая версия', link: '/1_genre_and_synopsis/1.1_simple_version' },
           { text: '1.2 Полная версия', link: '/1_genre_and_synopsis/1.2_full_version' }
         ]
@@ -43,7 +43,6 @@ export default defineConfig({
         link: '/2_controls/',
         collapsed: false,
         items: [
-          { text: '2. Обзор', link: '/2_controls/' },
           { text: '2.1 Геймпад (PlayStation)', link: '/2_controls/2.1_gamepad_ps' },
           { text: '2.2 Клавиатура и мышь', link: '/2_controls/2.2_keyboard_and_mouse' }
         ]
@@ -53,7 +52,6 @@ export default defineConfig({
         link: '/3_base_concepts/',
         collapsed: false,
         items: [
-          { text: '3. Обзор', link: '/3_base_concepts/' },
           { text: '3.1 Системы и механики', link: '/3_base_concepts/3.1_system_and_mechanic' }
         ]
       },
@@ -62,7 +60,6 @@ export default defineConfig({
         link: '/4_game_style/',
         collapsed: false,
         items: [
-          { text: '4. Обзор', link: '/4_game_style/' }
         ]
       },
       {
@@ -70,7 +67,6 @@ export default defineConfig({
         link: '/5_systems/',
         collapsed: false,
         items: [
-          { text: '5. Обзор', link: '/5_systems/' },
           { text: '5.0 Руководство по документации', link: '/5_systems/5.0_doc_extension_manual' },
           { text: '5.1 Теги и классификация', link: '/5_systems/5.1_tags_and_classification_system' },
           { text: '5.2 Система ходов', link: '/5_systems/5.2_turn_system' },
@@ -86,7 +82,6 @@ export default defineConfig({
         link: '/6_mechanics/',
         collapsed: false,
         items: [
-          { text: '6. Обзор', link: '/6_mechanics/' },
           { text: '6.1 Механика боя', link: '/6_mechanics/6.1_combat_mechanic' }
         ]
       },
@@ -95,7 +90,6 @@ export default defineConfig({
         link: '/7_parameters/',
         collapsed: false,
         items: [
-          { text: '7. Обзор', link: '/7_parameters/' }
         ]
       }
     ],
