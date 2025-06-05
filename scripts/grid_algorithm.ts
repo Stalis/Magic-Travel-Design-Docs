@@ -22,33 +22,11 @@ const getCellsEuclidean = (source: Point, target: Point): Point[] => {
   return cells;
 }
 
-// Alternative: Even simpler step-by-step approach
-const getCellsEuclideanSimple = (source: Point, target: Point): Point[] => {
-  const cells: Point[] = [];
-  const stepX = target.x > source.x ? 1 : target.x < source.x ? -1 : 0;
-  const stepY = target.y > source.y ? 1 : target.y < source.y ? -1 : 0;
-  
-  let x = source.x;
-  let y = source.y;
-  
-  while (x !== target.x || y !== target.y) {
-    cells.push({ x, y });
-    if (x !== target.x) x += stepX;
-    if (y !== target.y) y += stepY;
-  }
-  cells.push({ x, y }); // Add target
-  
-  return cells;
-}
 
 const printPoint = (point: Point) => `(${point.x};${point.y})`;
 
 // Test both algorithms
 console.log('Euclidean cells (interpolation):', getCellsEuclidean(source, target)
-  .map(printPoint)
-  .join(' -> '));
-
-console.log('Euclidean cells (simple step):', getCellsEuclideanSimple(source, target)
   .map(printPoint)
   .join(' -> '));
 
@@ -87,11 +65,9 @@ const getAllPath = (points: Point[]): PathCheckPoint[] => {
   if (points.length === 1) return [{ ...points[0], walls: [] }];
 
   const result: PathCheckPoint[] = [];
-  const addedCells = new Set<string>();
   
   // Helper function to add a point if not already added
   const addPoint = (point: Point, walls: WallSide[]) => {
-    const key = `${point.x},${point.y}`;
     const existing = result.find(p => p.x === point.x && p.y === point.y);
     
     if (existing) {
@@ -100,7 +76,6 @@ const getAllPath = (points: Point[]): PathCheckPoint[] => {
       existing.walls = [...new Set(allWalls)];
     } else {
       result.push({ ...point, walls: [...walls] });
-      addedCells.add(key);
     }
   };
 
@@ -137,34 +112,36 @@ const getAllPath = (points: Point[]): PathCheckPoint[] => {
     // Add the current point first
     addPoint(current, currentWalls);
     
-    // For diagonal movement, add the additional cells before the next point
-    if (Math.abs(dx) === 1 && Math.abs(dy) === 1) {
-      // Add the two additional cells that connect the diagonal
-      const cell1 = { x: current.x, y: current.y + dy }; // vertical step first
-      const cell2 = { x: current.x + dx, y: current.y }; // horizontal step first
+    // For any movement (not just unit diagonal), we need to check all cells
+    // that could block the line between current and next
+    if (dx !== 0 || dy !== 0) {
+      // Get all cells that the line crosses
+      const intermediateCells = getLineCrossingCells(current, next);
       
-      // For cell1 (vertical movement from current)
-      const cell1Walls: WallSide[] = [];
-      if (dy > 0) {
-        cell1Walls.push('north'); // came from north
-        cell1Walls.push('east'); // going east to reach next
-      } else {
-        cell1Walls.push('south'); // came from south
-        cell1Walls.push('east'); // going east to reach next
-      }
-      
-      // For cell2 (horizontal movement from current)
-      const cell2Walls: WallSide[] = [];
-      if (dx > 0) {
-        cell2Walls.push('west'); // came from west
-        cell2Walls.push('south'); // going south to reach next
-      } else {
-        cell2Walls.push('east'); // came from east  
-        cell2Walls.push('south'); // going south to reach next
-      }
-      
-      addPoint(cell1, cell1Walls);
-      addPoint(cell2, cell2Walls);
+      // Add each intermediate cell with appropriate walls
+      intermediateCells.forEach(cell => {
+        const cellWalls: WallSide[] = [];
+        
+        // Determine which walls this cell needs to check based on line direction
+        const cellDx = cell.x - current.x;
+        const cellDy = cell.y - current.y;
+        const remainingDx = next.x - cell.x;
+        const remainingDy = next.y - cell.y;
+        
+        // Add walls based on where we came from
+        if (cellDx > 0) cellWalls.push('west');
+        if (cellDx < 0) cellWalls.push('east');
+        if (cellDy > 0) cellWalls.push('north');
+        if (cellDy < 0) cellWalls.push('south');
+        
+        // Add walls based on where we're going
+        if (remainingDx > 0) cellWalls.push('east');
+        if (remainingDx < 0) cellWalls.push('west');
+        if (remainingDy > 0) cellWalls.push('south');
+        if (remainingDy < 0) cellWalls.push('north');
+        
+        addPoint(cell, cellWalls);
+      });
     }
     
     // Add the next point last (only on the final iteration or if it's the last point)
@@ -176,8 +153,55 @@ const getAllPath = (points: Point[]): PathCheckPoint[] => {
   return result;
 }
 
+// Helper function to get all cells that a line crosses between two points
+const getLineCrossingCells = (start: Point, end: Point): Point[] => {
+  const cells: Point[] = [];
+  const dx = Math.abs(end.x - start.x);
+  const dy = Math.abs(end.y - start.y);
+  
+  // If it's a single step movement, handle the diagonal case
+  if (dx <= 1 && dy <= 1) {
+    if (dx === 1 && dy === 1) {
+      // Add the two intermediate cells for diagonal movement
+      cells.push({ x: start.x, y: end.y }); // vertical step
+      cells.push({ x: end.x, y: start.y }); // horizontal step
+    }
+    return cells;
+  }
+  
+  // For longer lines, we need to find all cells the line passes through
+  // Use a grid traversal algorithm to find all cells the line crosses
+  const stepX = end.x > start.x ? 1 : end.x < start.x ? -1 : 0;
+  const stepY = end.y > start.y ? 1 : end.y < start.y ? -1 : 0;
+  
+  // Add all adjacent cells that the line might cross
+  let x = start.x;
+  let y = start.y;
+  
+  while (x !== end.x || y !== end.y) {
+    // Check if we should move horizontally or vertically (or both)
+    const remainingX = Math.abs(end.x - x);
+    const remainingY = Math.abs(end.y - y);
+    
+    // Add adjacent cells that could be crossed
+    if (stepX !== 0 && stepY !== 0) {
+      // For diagonal movement, add the adjacent cells
+      if (x !== end.x && y !== end.y) {
+        cells.push({ x: x + stepX, y: y });     // horizontal step
+        cells.push({ x: x, y: y + stepY });     // vertical step
+      }
+    }
+    
+    // Move to next cell
+    if (remainingX > 0) x += stepX;
+    if (remainingY > 0) y += stepY;
+  }
+  
+  return cells;
+}
+
 // Test the getAllPath function
-const testPath = getCellsEuclideanSimple(source, target);
+const testPath = getCellsEuclidean(source, target);
 console.log('\nTest path:', testPath.map(printPoint).join(' -> '));
 
 const pathCheckPoints = getAllPath(testPath);
@@ -202,6 +226,9 @@ console.log('Diagonal test:', getAllPath(diagonalPath).map(p =>
   `${printPoint(p)}:[${p.walls.join(',')}]`).join(' '));
 
 // Test for ~60-degree diagonal movement
-const sixtyDegDiagonalPath = [{ x: 0, y: 0 }, { x: 6, y: 3 }];
+const sixtyDegSource = { x: 0, y: 0 };
+const sixtyDegTarget = { x: 6, y: 3 };
+const sixtyDegDiagonalPath = getCellsEuclidean(sixtyDegSource, sixtyDegTarget);
+console.log('~60 Degree path:', sixtyDegDiagonalPath.map(printPoint).join(' -> '));
 console.log('~60 Degree Diagonal test:', getAllPath(sixtyDegDiagonalPath).map(p => 
   `${printPoint(p)}:[${p.walls.join(',')}]`).join(' '));
