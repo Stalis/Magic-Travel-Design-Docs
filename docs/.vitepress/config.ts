@@ -69,8 +69,8 @@ export default defineConfig({
         items: [
           { text: '5.0 Руководство по документации', link: '/5_systems/5.0_doc_extension_manual' },
           { text: '5.1 Ходы', link: '/5_systems/5.1_turn_system' },
-          { text: '5.2 Теги и классификация', link: '/5_systems/5.2_tags_and_classification_system' },
-          { text: '5.3 Пространство и навигация', link: '/5_systems/5.3_space_and_navigation_system' },
+          { text: '5.2 Пространство и навигация', link: '/5_systems/5.2_space_and_navigation_system' },
+          { text: '5.3 Теги и классификация', link: '/5_systems/5.3_tags_and_classification_system' },
           { text: '5.4 Ресурсы и экономика', link: '/5_systems/5.4_resources_and_economy' },
           { text: '5.5 Характеристики', link: '/5_systems/5.5_character_stats_system' },
           { text: '5.6 Состояния', link: '/5_systems/5.6_status_system' },
